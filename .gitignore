@@ -1,0 +1,4 @@
+*.pyc
+show.py
+.backup/
+.idea

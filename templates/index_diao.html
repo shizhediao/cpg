@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>古诗生成</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='img/icon.gif') }}">
+</head>
+<img src="../static/pku.png" alt="北大实验室图标" style="position:absolute; left:1px; top:1px; ">
+
+<body background="../static/background.jpg">
+<h1>请输入一篇文章：</h1>
+  <form action="/docToPoem2" method="POST" class="form-style-4">
+      <div class="form-group">
+          <input type="text" name="name" placeholder="请输入一篇文章..." />
+          <input type="submit" value="Submit" />
+      </div>
+  </form>
+<h2>Keywords</h2>
+<h2>{{keyword1}} {{keyword2}} {{keyword3}} {{keyword4}}</h2>
+<h2>Poem</h2>
+<h2>{{sen1}}，{{sen2}}</h2>
+<h2>{{sen3}}，{{sen4}}</h2>
+<h2></h2>
+
+</body>
+
+</html>

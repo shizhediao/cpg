@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<title>古诗生成</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='img/icon.gif') }}">
+</head>
+<img src="../static/pku.png" alt="北大实验室图标" style="position:absolute; left:1px; top:1px; ">
+
+    <body background="../static/background.jpg">
+        <div align="center" style="margin-top:30px">
+            <form method="POST" name="form1">
+                在左边四个框各输入一个关键词或者在上面的框中输入一句或几句话
+                <br>
+                <input type="text" name="keywords" placeholder="例如：天涯何处无芳草"/>
+                <br>
+                <input type="text" name="k1" placeholder="" value="{{K1}}"/>
+                <input type="text" name="s1" placeholder="" value="{{S1}}"/>
+                <br>
+                <input type="text" name="k2" placeholder="" value="{{K2}}"/>
+                <input type="text" name="s2" placeholder="" value="{{S2}}"/>
+                <br>
+                <input type="text" name="k3" placeholder="" value="{{K3}}"/>
+                <input type="text" name="s3" placeholder="" value="{{S3}}"/>
+                <br>
+                <input type="text" name="k4" placeholder="" value="{{K4}}"/>
+                <input type="text" name="s4" placeholder="" value="{{S4}}"/>
+                <br>
+                <input type="submit" value="生成"/>
+            </form>
+        </div>
+    </body>
+</html>
