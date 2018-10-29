@@ -19,7 +19,7 @@ from gensim import models
 from discriminator import Discriminator
 
 hidden_size = 256
-_model_path = os.path.join(save_dir, 'seq2seq_10_11_10.pt')
+_model_path = os.path.join(save_dir, 'seq2seq_10_11_20.pt')
 w2v_dir = os.path.join(data_dir, 'word2vec.model')
 kw_model_path = os.path.join(data_dir, 'kw_model.bin')
 
