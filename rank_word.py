@@ -48,14 +48,15 @@ def _text_rank(adjlist):
         print ("\nTextRank is interrupted.")
     sxhy_dict = get_sxhy_dict()
     def _compare_words(a, b):
-        if a[0] in sxhy_dict and b[0] not in sxhy_dict:
-            return -1
-        elif a[0] not in sxhy_dict and b[0] in sxhy_dict:
-            return 1
-        else:
-            return operator.gt(b[1], a[1])
-    words = sorted([(word,score) for word,score in scores.items()],
-            key = cmp_to_key(_compare_words))
+        #if a[0] in sxhy_dict and b[0] not in sxhy_dict:
+        #    return -1
+        #elif a[0] not in sxhy_dict and b[0] in sxhy_dict:
+        #    return 1
+        #else:
+        return operator.gt(b[1], a[1])
+    #words = sorted([(word,score) for word,score in scores.items()],
+    #        key = cmp_to_key(_compare_words))
+    words = sorted(scores.items(), key= lambda w: w[1], reverse=True)
     with codecs.open(rank_path, 'w', 'utf-8') as fout:
         json.dump(words, fout)
 

@@ -48,14 +48,15 @@ def _text_rank(adjlist):
         print ("\nTextRank is interrupted.")
     sxhy_dict = get_sxhy_dict()
     def _compare_words(a, b):
-        if a[0] in sxhy_dict and b[0] not in sxhy_dict:
-            return -1
-        elif a[0] not in sxhy_dict and b[0] in sxhy_dict:
-            return 1
-        else:
-            return operator.gt(b[1], a[1])
-    words = sorted([(word,score) for word,score in scores.items()],
-            key = cmp_to_key(_compare_words))
+        #if a[0] in sxhy_dict and b[0] not in sxhy_dict:
+        #    return -1
+        #elif a[0] not in sxhy_dict and b[0] in sxhy_dict:
+        #    return 1
+        #else:
+        return operator.gt(b[1], a[1])
+    #words = sorted([(word, score) for word, score in scores.items()],
+    #        key = cmp_to_key(_compare_words))
+    words = sorted(scores.items(), key= lambda w: w[1], reverse=True)
     with codecs.open(rank_path, 'w', 'utf-8') as fout:
         json.dump(words, fout)
 
@@ -66,10 +67,21 @@ def _rank_all_words():
     print ("Start TextRank over the selected quatrains ...")
     quatrains = get_quatrains()
     adjlist = dict()
+    word_cnts = dict()
+    for idx, sentence in enumerate(quatrains):
+        if 0 == (idx+1)%10000:
+            print ("[Count Words] Scanning %d/%d sentences ..." %(idx+1, len(quatrains)))
+        segs = list(filter(lambda word: word not in stopwords,
+                segmenter.segment(sentence)))
+        for seg in segs:
+            if seg not in word_cnts:
+                word_cnts[seg] = 1
+            else:
+                word_cnts[seg] = word_cnts[seg] + 1
     for idx, sentence in enumerate(quatrains):
         if 0 == (idx+1)%10000:
             print ("[TextRank] Scanning %d/%d sentences ..." %(idx+1, len(quatrains)))
-        segs = list(filter(lambda word: word not in stopwords,
+        segs = list(filter(lambda word: word not in stopwords and word_cnts[word] >= 20,
                 segmenter.segment(sentence)))
         for seg in segs:
             if seg not in adjlist:
