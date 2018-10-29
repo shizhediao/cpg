@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#古诗的分词器
 
 from utils import *
 import jieba

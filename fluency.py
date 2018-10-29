@@ -1,11 +1,12 @@
+#暂时不用
 from utils import *
 from vocab import get_vocab, VOCAB_SIZE
-from cnt_words import get_pop_quatrains
+from quatrains import get_quatrains
 from gensim import models
 import numpy as np
 
 if __name__ == '__main__':
-    poems = get_pop_quatrains()
+    poems = get_quatrains()
     int2ch, ch2int = get_vocab()
     model = models.Word2Vec.load('word2vec.model')
     #print(poems)

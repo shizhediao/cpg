@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#跨语言embedding，现在不用
 
 from utils import *
 from vocab import get_vocab, VOCAB_SIZE

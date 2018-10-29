@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#找出出现最多的字来组成字典
 
 from utils import *
 from corpus import get_all_corpus

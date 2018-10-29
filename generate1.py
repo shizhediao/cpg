@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#旧的生成器，不用看
 
 from utils import *
 from vocab import *

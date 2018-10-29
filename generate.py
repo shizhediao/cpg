@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#旧的生成器，不用看
 
 from utils import *
 from vocab import *
@@ -183,12 +184,6 @@ if __name__ == '__main__':
             if len(row['sentence']) != 7:
                 continue
             s.append(row['sentence'])
-            for word1 in row['sentence']:
-                for word2 in row['sentence']:
-                    try:
-                        os.append(word2vec.similarity(word1, word2))
-                    except KeyError:
-                        continue
             kw.append(row['keyword'])
             if i%100 == 0:
                 print(i)
@@ -200,21 +195,9 @@ if __name__ == '__main__':
                 fout.write('\n'.join(s))
                 fout.write('\n')
                 sentences = generator.generate(kw)
-                for sentence in sentences:
-                    for word1 in row['sentence']:
-                        for word2 in row['sentence']:
-                            try:
-                                ms.append(word2vec.similarity(word1, word2))
-                            except KeyError:
-                                continue
                 fout.write('\n'.join(sentences))
                 fout.write('\n')
                 kw = []
                 s = []
                 data.extend([1,1,1,1,0,0,0,0])
                 np.save("dis_train.npy", data)
-    print(os)
-    print(ms)
-    print(data)
-    np.save("os.npy", np.array(os))
-    np.save("ms.npy", np.array(ms))

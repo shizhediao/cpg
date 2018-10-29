@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#处理训练数据
 
 from utils import *
 from segment import Segmenter

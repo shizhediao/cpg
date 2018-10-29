@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#训练字级别的词向量
 
 from utils import *
 from vocab import get_vocab, VOCAB_SIZE

@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#训练词级别的词向量，最新的提关键词并扩充
 
 from utils import *
 from segment import Segmenter

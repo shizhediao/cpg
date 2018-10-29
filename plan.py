@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#旧的提关键词并扩充
 
 from utils import *
 from segment import Segmenter

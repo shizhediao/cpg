@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #-*- coding:utf-8 -*-
+#从corpus中提取出7个字且由字典中的字组成的诗
 
 from utils import *
 from corpus import get_all_corpus

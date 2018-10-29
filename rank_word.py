@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 #coding:utf-8
+#字级别的rank
 
 from utils import *
 from segment import Segmenter, get_sxhy_dict
