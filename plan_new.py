@@ -44,8 +44,9 @@ class Planner:
             if 0 == (idx+1)%10000:
                 print ("[Plan Word2Vec] %d/%d sentences has been processed." %(idx+1, len(quatrains)))
         print ("Hold on. This may take some time ...")
-        self.kw_model = models.Word2Vec(seg_lists, size = 512, min_count = 5)
+        self.kw_model = models.Word2Vec(seg_lists, size = 512, min_count = 20)
         self.kw_model.save(kw_model_path)
+        print("model saved")
 
     def old_expand(self, words, num):
         positive = list(filter(lambda w: w in self.kw_model.wv, words))

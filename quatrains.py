@@ -21,9 +21,9 @@ def get_quatrains():
                             if ch not in ch2int:
                                 flag = False
                                 break
-                        #if flag:
+                        if flag:
                             #print(s)
-                        quatrains.append(s)
+                            quatrains.append(s)
         if idx%10000==0:
             print("%d / %d poems have been done" % (idx,len(corpus)))
     return quatrains
