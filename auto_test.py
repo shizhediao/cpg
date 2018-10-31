@@ -55,9 +55,9 @@ table.write(0, column, now_time, dateFormat)
 
 for i in range(1, 71):
     file_name = "./test_input/"+str(i)+".txt"
-    f = open(file_name,"r")   #设置文件对象
+    f = open(file_name,"r",encoding="utf-8")   #设置文件对象
     content = f.read()     #将txt文件的所有内容读入到字符串str中
-    print(content)
+    #print(content)
 
     planner = Planner()
     generator = Generator()
