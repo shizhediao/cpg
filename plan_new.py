@@ -48,8 +48,8 @@ class Planner:
         self.kw_model.save(kw_model_path)
         print("model saved")
 
-    def old_expand(self, words, num):
-        positive = list(filter(lambda w: w in self.kw_model.wv, words))
+    def old_expand(self, words, num, positive):
+        #positive = list(filter(lambda w: w in self.kw_model.wv, words))
         similars = self.kw_model.wv.most_similar(positive = positive) \
                 if len(positive) > 0 else []
         print(similars)
@@ -95,37 +95,40 @@ class Planner:
         return words
 
     def plan(self, text):
-        def check(words):
+        def check(words):#检查词中的字是否在字典中
             for word in words:
-                if word not in self.rank or word in self.stop_words:
+                if word not in self.rank:
                     return False
             return True
         def extract(sentence):
             return list(filter(lambda x: check(x), jieba.lcut(sentence)))
-        def _rank(words):
+        def _rank(words):#
             r = 1
             length = 0.00001
             for word in words:
                 if word not in self.stop_words:
                     r = r + self.rank[word]
                     length = length+1
-            return r/(length*length)
+            r = r/length
+            if len(words) >= 2:
+                r -= 5000
+            return r
         print(jieba.lcut(text))
-        _keywords = extract(text)
+        _keywords = extract(text)#词级别关键词
         print(_keywords)
         keywords = []
-        for w1 in _keywords:
+        for w1 in _keywords:#去掉重复关键词
             flag = True
             for w2 in _keywords:
-                if w1 != w2 and w1 in w2:
+                if len(w1) < len(w2) and w1 in w2:
                     flag = False
                     break
             if flag == True:
                 keywords.append(w1)
-        #print(keywords)
-        for word in text:
+        print(keywords)
+        for word in text:#字级别关键词
             flag = True
-            if word not in self.rank:
+            if word not in self.ranks:
                 flag = False
             else:
                 for words in keywords:
@@ -134,39 +137,26 @@ class Planner:
                         break
             if flag == True:
                 keywords.append(word)
-        print(keywords)
-        keywords = sorted(keywords, key = cmp_to_key(lambda x,y : operator.gt(_rank(y),_rank(x))))
+        #print(keywords)
+        keywords = sorted(keywords, key = lambda x: _rank(x))
         print(keywords)
         words = [keywords[idx] for idx in \
                 filter(lambda i: 0 == i or keywords[i] != keywords[i-1], range(len(keywords)))]
-        if len(words) == 0:
-            r = 4000
-            for w in text:
-                print(w)
-                if w in self.rank and self.rank[w] < r:
-                    print(w)
-                    print(self.rank[w])
-                    sword = w
-                    r = self.rank[w]
-            words = [sword]
+        if len(words) == 0:#输入没有字典中的字
+            word = self.int2ch(random.randint(1,4000))
+            words.append(word)
         print(words)
         if len(words) < 4:
-            old_words = []
+            positive = []
             for word in words:
                 if word in self.kw_model.wv:
-                    old_words.append(word)
-            print(old_words)
-            if len(old_words) > 0:
-                old_words = self.old_expand(old_words, 4-len(words)+len(old_words))
-                for word in words:
-                    if word not in self.kw_model.wv:
-                        old_words.append(word)
-                words = old_words
-                shuffle(words)
-                print(words)
-            else:
-                words = self.expand(words, 4)
-                print(words)
+                    positive.append(word)
+                else:
+                    for w in word:
+                        if w in self.kw_model.wv:
+                            positive.append(w)
+            print(positive)
+            words = self.old_expand(words, 4, positive)
         else:
             while len(words) > 4:
                 words.pop()
