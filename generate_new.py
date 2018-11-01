@@ -48,6 +48,7 @@ class Generator:
         self.ya = 0
         self.yalist = []
         self.word_model = models.Word2Vec.load(kw_model_path)
+        self.used_words = []
         # self.word_list1, self.word_list2 = find_repeat_word()
         # self.model = models.Word2Vec.load(w2v_dir)
         # self.discriminator = Discriminator(embedding_dim=256, hidden_dim=256, vocab_size=VOCAB_SIZE, max_seq_len=7,gpu=True).cuda()
@@ -145,45 +146,37 @@ class Generator:
         return word
 
     def generate(self, keywords):
+        self.used_words = [] #已经出现过的字
         sentences = []
         ss = []
         int2ch, ch2int = get_vocab()
         # print(keywords)
         rhythm_id = floor(random.random() * 4)
+        for keyword in keywords:
+            self.used_words.extend(keyword)
         for idx, keyword in enumerate(keywords):
-            if keyword in self.word_model.wv:
+            if keyword in self.word_model.wv: #keyword在词典中
                 teachword = self.word_model.most_similar(keyword)
-                for word in teachword:
-                    if word[0] not in keywords:
-                        flag = 1
-                        for w in word[0]:
-                            if w not in ch2int:
-                                flag = 0
-                                break
-                        if flag == 1:
-                            teachword = word[0]
-                            break
-            else:
-                flag1 = False
+            else: #keyword不在词典中
+                positive = []
                 for w in keyword:
                     if w in self.word_model.wv:
-                        teachword = self.word_model.most_similar(w)
-                        for word in teachword:
-                            if word[0] not in keywords:
-                                flag2 = 1
-                                for w2 in word[0]:
-                                    if w2 not in ch2int:
-                                        flag2 = 0
-                                        break
-                                if flag2 == 1:
-                                    flag1 = True
-                                    teachword = word[0]
-                                    break
-                    if flag1 == True:
+                        positive.append(w)
+                teachword = self.word_model.most_similar(positive=positive)
+            flag = False
+            for word in teachword:
+                f1 = True
+                for w in word[0]:
+                    if w in self.used_words:
+                        f1 = False
                         break
-                flag1 = False
-                if flag1 == False:
-                    teachword = keyword
+                if f1 == False:
+                    continue
+                flag = True
+                teachword = word[0]
+                break
+            if flag == False:
+                teachword = keyword
             print(teachword)
             sentence = u''
             if CUDA:
@@ -209,6 +202,8 @@ class Generator:
                 # sentence += int2ch[output.data.max(1)[1][0]]
                 sentence += word
                 ss += word
+                self.used_words.extend(word)
+                #print(self.used_words)
                 # output = Variable(output.data.max(1)[1])
                 if CUDA:
                     output = Variable(torch.LongTensor([ch2int[word]])).cuda()
